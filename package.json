@@ -1,0 +1,8 @@
+{
+  "name": "gonx-cwd-repro",
+  "private": true,
+  "devDependencies": {
+    "@naxodev/gonx": "4.1.1",
+    "nx": "23.2.1"
+  }
+}

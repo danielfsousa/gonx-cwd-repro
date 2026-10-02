@@ -1,0 +1,25 @@
+name: repro
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NX_DAEMON: "false"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: apps/my-go-app/go.mod
+      - run: npm ci
+      - name: Build from the workspace root (passes)
+        run: npx nx build apps/my-go-app --skip-nx-cache
+      - name: Build from the project directory (fails with spawnSync go ENOENT)
+        working-directory: apps/my-go-app
+        run: npx nx build --skip-nx-cache
